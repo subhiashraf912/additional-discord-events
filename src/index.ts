@@ -1,7 +1,5 @@
 import { Client } from "discord.js";
-import voiceConnectEvent from "./controllers/voice/voiceConnectEvent";
-import voiceDisconnectEvent from "./controllers/voice/voiceDisconnectEvent";
-import voiceSwitchEvent from "./controllers/voice/voiceSwitchEvent";
+import { regEvents } from "./helpers/regEvents";
 
 declare module "discord.js" {
   interface ClientEvents {
@@ -98,10 +96,8 @@ declare module "discord.js" {
   }
 }
 
-const moreDJSEvents = (client: Client) => {
-  voiceConnectEvent(client);
-  voiceDisconnectEvent(client);
-  voiceSwitchEvent(client);
+const moreDJSEvents = async (client: Client) => {
+  await regEvents(client, "../controllers");
 };
 
 export default moreDJSEvents;

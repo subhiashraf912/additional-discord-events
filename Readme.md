@@ -29,14 +29,34 @@ cd project-path
 npm i --save more-djs-events
 ```
 
+## Important note
+
+Check your intents, some events won't be emitted if the required intents are missing!
+
 ## How to use
 
 ```js
 const Discord = require("discord.js");
 const moreDJSEvents = require("more-djs-events").default;
 
-const intents = ["GUILDS", "GUILD_INVITES", "GUILD_MEMBERS"];
-const partials = ["USER", "GUILD_MEMBER"];
+const intents = [
+  "GUILDS",
+  "GUILD_MEMBERS",
+  "GUILD_BANS",
+  "GUILD_EMOJIS_AND_STICKERS",
+  "GUILD_INTEGRATIONS",
+  "GUILD_WEBHOOKS",
+  "GUILD_INVITES",
+  "GUILD_VOICE_STATES",
+  "GUILD_PRESENCES",
+  "GUILD_MESSAGES",
+  "GUILD_MESSAGE_REACTIONS",
+  "GUILD_MESSAGE_TYPING",
+  "DIRECT_MESSAGES",
+  "DIRECT_MESSAGE_REACTIONS",
+  "DIRECT_MESSAGE_TYPING",
+];
+const partials = ["USER", "CHANNEL", "GUILD_MEMBER", "MESSAGE", "REACTION"];
 
 const client = new Discord.Client({
   intents,
@@ -46,119 +66,108 @@ const client = new Discord.Client({
 moreDJSEvents(client);
 
 //Example Events:
-client.on("guildMemberVoiceConnect", (member, channel) => {
+client.on("guildMemberVoiceConnect", (member, channel) => {});
 
-});
+client.on("guildMemberVoiceDisconnect", (member, oldChannel) => {});
 
-client.on("guildMemberVoiceDisconnect", (member, oldChannel) => {
-
-});
-
-client.on("guildMemberVoiceSwitch", (member, oldChannel, newChannel) => {
-
-});
+client.on("guildMemberVoiceSwitch", (member, oldChannel, newChannel) => {});
 
 client.login("token");
 ```
+
 ## Avaliable Events
+
 Here are the current events with their types.
+
 ```ts
-
-    interface ClientEvents {
-        guildMemberVoiceDisconnect: [
-            member: GuildMember,
-            oldVoiceChannel: VoiceChannel | StageChannel
-        ];
-        guildMemberVoiceConnect: [
-            member: GuildMember,
-            voiceChannel: VoiceChannel | StageChannel
-        ];
-        guildMemberVoiceSwitch: [
-            member: GuildMember,
-            oldVoiceChannel: VoiceChannel | StageChannel,
-            newVoiceChannel: VoiceChannel | StageChannel
-        ];
-        guildMemberUsernameChange: [
-            member: GuildMember,
-            oldUsername: string,
-            newUsername: string
-        ];
-        guildMemberDiscrminatorChange: [
-            member: GuildMember,
-            oldUsername: string,
-            newUsername: string
-        ];
-        guildMemberAvatarChange: [
-            member: GuildMember,
-            oldAvatarURL: string | null,
-            newAvatarURL: string | null
-        ];
-        guildMemberAvatarUserChange: [
-            member: GuildMember,
-            oldAvatarURL: string | null,
-            newAvatarURL: string | null
-        ];
-        guildMemberBannerChange: [
-            member: GuildMember,
-            oldAvatarURL: string | null,
-            newAvatarURL: string | null
-        ];
-        guildMemberUserDelete: [member: GuildMember];
-        guildMemberHexColorChange: [
-            member: GuildMember,
-            oldHexColor: `#${string}`,
-            newHexColor: `#${string}`
-        ];
-        guildMemberDisplayNameChange: [
-            member: GuildMember,
-            oldNickname: string,
-            newNickname: string
-        ];
-        guildMemberNicknameChange: [
-            member: GuildMember,
-            oldNickname: string | null,
-            newNickname: string | null
-        ];
-        guildMemberPartialChange: [
-            member: GuildMember,
-            oldPartial: boolean,
-            newPartial: boolean
-        ];
-        guildMemberPendingChange: [
-            member: GuildMember,
-            oldPending: boolean,
-            newPending: boolean
-        ];
-        guildMemberPermissionsChange: [
-            member: GuildMember,
-            oldPermissions: Readonly<Permissions>,
-            newPermissions: Readonly<Permissions>
-        ];
-        guildMemberSubscribedToNitro: [member: GuildMember];
-        guildMemberUnsubscribedToNitro: [member: GuildMember];
-        guildMemberPresenceChange: [
-            member: GuildMember,
-            oldPresense: Presence | null,
-            newPresense: Presence | null
-        ];
-        guildAFKChannelChange: [
-            oldChannel: VoiceChannel | null,
-            newChannel: VoiceChannel | null
-        ];
-        guildAFKTimeoutChange: [
-            guild: Guild,
-            oldTimeout: number,
-            newTimeout: number
-        ];
-        guildBannerChange: [
-            guild: Guild,
-            oldBanner: string | null,
-            newBanner: string | null
-        ];
-    }
-
-
-
+interface ClientEvents {
+  guildMemberVoiceDisconnect: [
+    member: GuildMember,
+    oldVoiceChannel: VoiceChannel | StageChannel
+  ];
+  guildMemberVoiceConnect: [
+    member: GuildMember,
+    voiceChannel: VoiceChannel | StageChannel
+  ];
+  guildMemberVoiceSwitch: [
+    member: GuildMember,
+    oldVoiceChannel: VoiceChannel | StageChannel,
+    newVoiceChannel: VoiceChannel | StageChannel
+  ];
+  guildMemberUsernameChange: [
+    member: GuildMember,
+    oldUsername: string,
+    newUsername: string
+  ];
+  guildMemberDiscrminatorChange: [
+    member: GuildMember,
+    oldUsername: string,
+    newUsername: string
+  ];
+  guildMemberAvatarChange: [
+    member: GuildMember,
+    oldAvatarURL: string | null,
+    newAvatarURL: string | null
+  ];
+  guildMemberAvatarUserChange: [
+    member: GuildMember,
+    oldAvatarURL: string | null,
+    newAvatarURL: string | null
+  ];
+  guildMemberBannerChange: [
+    member: GuildMember,
+    oldAvatarURL: string | null,
+    newAvatarURL: string | null
+  ];
+  guildMemberUserDelete: [member: GuildMember];
+  guildMemberHexColorChange: [
+    member: GuildMember,
+    oldHexColor: `#${string}`,
+    newHexColor: `#${string}`
+  ];
+  guildMemberDisplayNameChange: [
+    member: GuildMember,
+    oldNickname: string,
+    newNickname: string
+  ];
+  guildMemberNicknameChange: [
+    member: GuildMember,
+    oldNickname: string | null,
+    newNickname: string | null
+  ];
+  guildMemberPartialChange: [
+    member: GuildMember,
+    oldPartial: boolean,
+    newPartial: boolean
+  ];
+  guildMemberPendingChange: [
+    member: GuildMember,
+    oldPending: boolean,
+    newPending: boolean
+  ];
+  guildMemberPermissionsChange: [
+    member: GuildMember,
+    oldPermissions: Readonly<Permissions>,
+    newPermissions: Readonly<Permissions>
+  ];
+  guildMemberSubscribedToNitro: [member: GuildMember];
+  guildMemberUnsubscribedToNitro: [member: GuildMember];
+  guildMemberPresenceChange: [
+    member: GuildMember,
+    oldPresense: Presence | null,
+    newPresense: Presence | null
+  ];
+  guildAFKChannelChange: [
+    oldChannel: VoiceChannel | null,
+    newChannel: VoiceChannel | null
+  ];
+  guildAFKTimeoutChange: [guild: Guild, oldTimeout: number, newTimeout: number];
+  guildBannerChange: [
+    guild: Guild,
+    oldBanner: string | null,
+    newBanner: string | null
+  ];
+}
 ```
 
 ## Are there more events?
@@ -172,4 +181,3 @@ You can join our discord server to give us suggestions or reports [Discord Serve
 ## Github
 
 You can find the source code on [Github](https://github.com/subhiashraf912/additional-discord-events).
-

@@ -93,5 +93,5 @@ declare module "discord.js" {
         ];
     }
 }
-declare const moreDJSEvents: (client: Client) => void;
+declare const moreDJSEvents: (client: Client) => Promise<void>;
 export default moreDJSEvents;
